@@ -1,0 +1,34 @@
+{
+  "placeholderImages": [
+    {
+      "id": "hero-background",
+      "description": "A coastline view of Miraflores, Lima, Peru, with city buildings.",
+      "imageUrl": "https://images.unsplash.com/photo-1588622268396-e63a5371c8c8?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxsaW1hJTIwcGVydSUyMGNvYXN0bGluZXxlbnwwfHx8fDE3NjU1MzkzOTd8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "Lima coastline"
+    },
+    {
+      "id": "about-photo",
+      "description": "A professional portrait of a man in a suit.",
+      "imageUrl": "https://images.unsplash.com/photo-1560250097-0b93528c311a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxwcm9mZXNzaW9uYWwlMjBtYW4lMjBwb3J0cmFpdHxlbnwwfHx8fDE3NjU1Mzk1MDV8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "professional man"
+    },
+    {
+      "id": "travel-1",
+      "description": "A beautiful turquoise lake in the mountains.",
+      "imageUrl": "https://images.unsplash.com/photo-1501862459435-f080a1a89c8a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxsYWd1bmElMjBodWFtYW50YXl8ZW58MHx8fHwxNzY1NTQwMzE4fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "mountain lake"
+    },
+    {
+      "id": "travel-2",
+      "description": "Ancient stone ruins under a blue sky.",
+      "imageUrl": "https://images.unsplash.com/photo-1589182373726-e4f658ab50f0?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxwZXJ1dmlhbiUyMHJ1aW5zfGVufDB8fHx8MTc2NTU0MDM0OHww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "inca ruins"
+    },
+    {
+      "id": "travel-3",
+      "description": "A view of a harbor with boats and a city.",
+      "imageUrl": "https://images.unsplash.com/photo-1549925234-706439fde52b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxzb3V0aCUyMGFtZXJpY2FuJTIwcG9ydHxlbnwwfHx8fDE3NjU1NDAzNzd8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "city harbor"
+    }
+  ]
+}
