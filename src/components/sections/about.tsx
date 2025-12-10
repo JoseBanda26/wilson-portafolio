@@ -10,18 +10,22 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
+import { Button } from "@/components/ui/button";
 
 export default function About() {
   const aboutImage = PlaceHolderImages.find(p => p.id === 'about-photo');
   const travelImages = PlaceHolderImages.filter(p => p.id.startsWith('travel-'));
 
   return (
-    <section id="sobre-mi" className="py-16 md:py-24 bg-card">
+    <section id="sobre-mi" className="py-16 md:py-24 bg-secondary animate-slide-up">
       <div className="container px-4 md:px-6">
-        <div className="grid gap-12 md:grid-cols-2 md:items-start">
-          <div className="space-y-6">
-            <div className="flex flex-col sm:flex-row items-center gap-6">
-              <div className="relative aspect-square w-40 h-40 overflow-hidden rounded-lg shadow-lg flex-shrink-0">
+        <div className="grid gap-16 md:grid-cols-2 md:items-center">
+          <div className="space-y-6 animate-slide-up" style={{ animationDelay: '0.2s' }}>
+            <h2 className="font-headline text-4xl font-bold tracking-tight text-accent sm:text-5xl">
+              Sobre mí
+            </h2>
+            <div className="flex items-center gap-6">
+              <div className="relative w-32 h-32 md:w-40 md:h-40 overflow-hidden rounded-full shadow-lg flex-shrink-0">
                 {aboutImage && (
                   <Image
                     src={aboutImage.imageUrl}
@@ -32,33 +36,35 @@ export default function About() {
                   />
                 )}
               </div>
-              <div className="text-center sm:text-left">
-                <h2 className="font-headline text-3xl font-bold tracking-tight sm:text-4xl">
-                  Sobre mi
-                </h2>
-                 <p className="mt-4 text-lg text-muted-foreground">
-                  Soy Wilson Mendoza, Contador Público Colegiado con más de 10 años de experiencia en contabilidad internacional. He asesorado a empresas extranjeras en Latinoamérica y he viajado por 24 países.
-                </p>
-              </div>
+              <p className="text-lg text-foreground/80">
+                Soy Wilson Mendoza, Contador Público Colegiado con más de 10 años de experiencia en contabilidad internacional.
+              </p>
             </div>
-             <div className="flex flex-col sm:flex-row gap-4 sm:gap-8 pt-4">
-                <Link href="https://wa.me/51999999999" target="_blank" className="flex items-center gap-2 text-muted-foreground hover:text-primary transition-colors">
-                    <Phone className="h-5 w-5"/>
-                    <span>WhatsApp</span>
-                </Link>
-                 <Link href="mailto:info@vrisonmendoza.com" className="flex items-center gap-2 text-muted-foreground hover:text-primary transition-colors">
-                    <Mail className="h-5 w-5"/>
-                    <span>info@vrisonmendoza.com</span>
-                </Link>
+            <p className="text-lg text-foreground/80">
+              He asesorado a empresas extranjeras en Latinoamérica y he viajado por 24 países, lo que me da una perspectiva única para ayudarte a navegar el panorama de negocios y viajes en la región.
+            </p>
+             <div className="flex flex-col sm:flex-row items-start gap-4 pt-4">
+                <Button asChild>
+                  <Link href="https://wa.me/51999999999" target="_blank">
+                    <Phone className="mr-2 h-5 w-5" />
+                    WhatsApp
+                  </Link>
+                </Button>
+                <Button asChild variant="outline">
+                  <Link href="mailto:info@vrisonmendoza.com">
+                    <Mail className="mr-2 h-5 w-5" />
+                    info@vrisonmendoza.com
+                  </Link>
+                </Button>
             </div>
           </div>
-          <div className="flex items-center justify-center">
-            <Carousel className="w-full max-w-md">
+          <div className="flex items-center justify-center animate-slide-up" style={{ animationDelay: '0.4s' }}>
+            <Carousel className="w-full max-w-lg">
               <CarouselContent>
-                {travelImages.map((image) => (
+                {travelImages.map((image, index) => (
                   <CarouselItem key={image.id}>
-                    <Card>
-                      <CardContent className="relative aspect-[4/3] p-0 overflow-hidden rounded-lg">
+                    <Card className="bg-transparent border-0 shadow-none">
+                      <CardContent className="relative aspect-[4/3] p-0 overflow-hidden rounded-lg shadow-xl">
                         <Image
                           src={image.imageUrl}
                           alt={image.description}
@@ -71,8 +77,8 @@ export default function About() {
                   </CarouselItem>
                 ))}
               </CarouselContent>
-              <CarouselPrevious className="hidden sm:inline-flex" />
-              <CarouselNext className="hidden sm:inline-flex" />
+              <CarouselPrevious className="hidden sm:inline-flex bg-secondary/80 text-foreground hover:bg-secondary" />
+              <CarouselNext className="hidden sm:inline-flex bg-secondary/80 text-foreground hover:bg-secondary" />
             </Carousel>
           </div>
         </div>
