@@ -1,6 +1,9 @@
-import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
+'use client';
+import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import { translations } from "@/lib/translations";
+import { useLanguage } from "@/context/language-context";
 
 const services = [
   {
@@ -10,8 +13,6 @@ const services = [
         <path d="M13.3333 33.8333V8.83333C13.3333 8.3731 13.5089 7.93115 13.8214 7.6186C14.134 7.30605 14.5759 7.16666 15 7.16666H25C25.4241 7.16666 25.866 7.30605 26.1786 7.6186C26.4911 7.93115 26.6667 8.3731 26.6667 8.83333V33.8333" stroke="hsl(var(--accent))" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
       </svg>
     ),
-    title: "Constitución de empresas",
-    description: "Te guiamos en el proceso de establecer tu negocio en Perú y otros países de Latinoamérica.",
   },
   {
     icon: (
@@ -22,8 +23,6 @@ const services = [
         <path d="M15 27.1667H25" stroke="hsl(var(--accent))" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
       </svg>
     ),
-    title: "Contabilidad y reportes financieros",
-    description: "Llevamos tus libros contables al día y generamos los informes que necesitas para tomar decisiones.",
   },
   {
     icon: (
@@ -33,8 +32,6 @@ const services = [
         <path d="M20 35.5C23.3137 35.5 26.1661 30.2843 27.4098 20.5C26.1661 10.7157 23.3137 5.5 20 5.5C16.6863 5.5 13.8339 10.7157 12.5902 20.5C13.8339 30.2843 16.6863 35.5 20 35.5Z" stroke="hsl(var(--accent))" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
       </svg>
     ),
-    title: "Asesoría en negocios internacionales",
-    description: "Te ayudamos a navegar las complejidades de los impuestos y regulaciones en diferentes países.",
   },
   {
     icon: (
@@ -43,8 +40,6 @@ const services = [
         <path d="M31.6667 35.5V32.1667C31.6667 30.3956 30.9469 28.6992 29.6967 27.449C28.4465 26.1988 26.7502 25.479 25 25.479H15C13.2498 25.479 11.5535 26.1988 10.3033 27.449C9.05311 28.6992 8.33333 30.3956 8.33333 32.1667V35.5" stroke="hsl(var(--accent))" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
       </svg>
     ),
-    title: "Planilla y RRHH",
-    description: "Nos encargamos de la gestión de tu planilla y te asesoramos en temas de recursos humanos.",
   },
   {
     icon: (
@@ -53,26 +48,26 @@ const services = [
         <path d="M25 7.16666V15.5H33.3333" stroke="hsl(var(--accent))" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
       </svg>
     ),
-    title: "Auditorias y requerimientos SUNAT",
-    description: "Te preparamos y representamos ante auditorías y requerimientos de la SUNAT.",
   },
 ];
 
 export default function Services() {
+  const { language } = useLanguage();
+
   return (
     <section id="servicios-contables" className="py-16 md:py-24 bg-background animate-slide-up">
       <div className="container px-4 md:px-6">
         <div className="mx-auto max-w-3xl text-center">
           <h2 className="font-headline text-4xl font-bold tracking-tight text-accent sm:text-5xl">
-            Soluciones contables y tributarias para extranjeros en Perú y Latinoamérica
+            {translations[language].services.title}
           </h2>
         </div>
         <div className="mt-12 grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-          {services.map((service, index) => (
+          {translations[language].services.serviceList.map((service, index) => (
             <Card key={service.title} className="flex flex-col items-center text-center p-6 bg-secondary rounded-lg transition-all duration-300 hover:shadow-lg hover:-translate-y-2 animate-slide-up" style={{ animationDelay: `${index * 0.1}s` }}>
               <CardHeader className="p-0">
                 <div className="mb-4 flex h-16 w-16 items-center justify-center mx-auto">
-                  {service.icon}
+                  {services[index].icon}
                 </div>
                 <CardTitle className="font-headline text-xl font-bold text-accent">{service.title}</CardTitle>
               </CardHeader>
@@ -84,10 +79,10 @@ export default function Services() {
         </div>
         <div className="mt-12 text-center space-y-4">
              <p className="text-lg text-foreground/80">
-                Hablemos sobre cómo puedo optimizar tu contabilidad internacional.
+                {translations[language].services.talkText}
               </p>
               <Button asChild size="lg" className="bg-accent text-accent-foreground hover:bg-accent/90">
-                <Link href="#contacto">Agendar Consulta</Link>
+                <Link href="#contacto">{translations[language].services.buttonText}</Link>
               </Button>
         </div>
       </div>

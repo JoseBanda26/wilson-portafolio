@@ -14,8 +14,11 @@ import {
 import { Button } from '@/components/ui/button';
 import Autoplay from 'embla-carousel-autoplay';
 import React from 'react';
+import { translations } from '@/lib/translations';
+import { useLanguage } from '@/context/language-context';
 
 export default function About() {
+  const { language } = useLanguage();
   const aboutImage = PlaceHolderImages.find((p) => p.id === 'about-photo');
   const travelImages = PlaceHolderImages.filter((p) =>
     p.id.startsWith('travel-')
@@ -36,7 +39,7 @@ export default function About() {
             style={{ animationDelay: '0.2s' }}
           >
             <h2 className="font-headline text-4xl font-bold tracking-tight text-accent sm:text-5xl">
-              Sobre mí
+              {translations[language].about.title}
             </h2>
             <div className="flex items-center gap-6">
               <div className="relative w-32 h-32 md:w-40 md:h-40 overflow-hidden rounded-full shadow-lg flex-shrink-0">
@@ -51,14 +54,11 @@ export default function About() {
                 )}
               </div>
               <p className="text-lg text-foreground/80">
-                Soy Wilson Mendoza, Contador Público Colegiado con más de 10
-                años de experiencia en contabilidad internacional.
+                {translations[language].about.intro}
               </p>
             </div>
             <p className="text-lg text-foreground/80">
-              He asesorado a empresas extranjeras en Latinoamérica y he viajado
-              por 24 países, lo que me da una perspectiva única para ayudarte a
-              navegar el panorama de negocios y viajes en la región.
+              {translations[language].about.experience}
             </p>
             <div className="flex flex-col sm:flex-row items-start gap-4 pt-4">
               <Button asChild>

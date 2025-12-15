@@ -1,31 +1,31 @@
-"use client";
+'use client';
 
-import * as React from "react";
-import Link from "next/link";
-import { Globe, Menu, X } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-
-const navLinks = [
-  { href: "#servicios-contables", label: "Servicios Contables" },
-  { href: "#concierge-de-viajes", label: "Concierge de Viajes" },
-  { href: "#sobre-mi", label: "Sobre mí" },
-  { href: "#contacto", label: "Contáctame" },
-];
+import * as React from 'react';
+import Link from 'next/link';
+import { Globe, Menu, X } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
+import { useLanguage } from '@/context/language-context';
+import { translations } from '@/lib/translations';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 export default function Header() {
   const [isSheetOpen, setIsSheetOpen] = React.useState(false);
+  const { language, setLanguage } = useLanguage();
 
   const closeSheet = () => setIsSheetOpen(false);
 
-  // Solución al error de hidratación:
-  // Forzar el renderizado del Sheet solo en el lado del cliente
-  // para evitar inconsistencias entre el servidor y el cliente.
   const [isClient, setIsClient] = React.useState(false);
   React.useEffect(() => {
     setIsClient(true);
   }, []);
 
+  const navLinks = translations[language].header.navLinks;
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -48,6 +48,21 @@ export default function Header() {
               {link.label}
             </Link>
           ))}
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost">
+                {translations[language].header.language}
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuItem onClick={() => setLanguage('en')}>
+                English
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => setLanguage('es')}>
+                Español
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
         </nav>
 
         {/* Mobile Navigation */}
@@ -60,14 +75,21 @@ export default function Header() {
               </Button>
             </SheetTrigger>
             <SheetContent side="right" className="w-full sm:w-3/4">
+              <SheetHeader>
+                <SheetTitle className="sr-only">Menu</SheetTitle>
+              </SheetHeader>
               <div className="flex h-full flex-col">
                 <div className="flex items-center justify-between border-b pb-4">
-                  <Link href="/" className="flex items-center gap-2" onClick={closeSheet}>
-                      <Globe className="h-6 w-6 text-primary" />
-                      <span className="font-headline text-lg font-semibold">
-                        Wilson Mendoza
-                      </span>
-                    </Link>
+                  <Link
+                    href="/"
+                    className="flex items-center gap-2"
+                    onClick={closeSheet}
+                  >
+                    <Globe className="h-6 w-6 text-primary" />
+                    <span className="font-headline text-lg font-semibold">
+                      Wilson Mendoza
+                    </span>
+                  </Link>
                   <SheetTrigger asChild>
                     <Button variant="ghost" size="icon">
                       <X className="h-6 w-6" />
@@ -87,6 +109,14 @@ export default function Header() {
                     </Link>
                   ))}
                 </nav>
+
+                <div className="mt-auto border-t pt-6">
+                  <div className="flex justify-center gap-4">
+                  <Button onClick={() => {setLanguage('en'); closeSheet()}} variant={language === 'en' ? 'accent' : 'outline'}>English</Button>
+                  <Button onClick={() => {setLanguage('es'); closeSheet()}} variant={language === 'es' ? 'accent' : 'outline'}>Español</Button>
+                  </div>
+                </div>
+
               </div>
             </SheetContent>
           </Sheet>

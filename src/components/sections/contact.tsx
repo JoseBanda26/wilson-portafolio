@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import { useState } from 'react';
 import { Button } from "@/components/ui/button";
@@ -7,8 +7,13 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Mail } from "lucide-react";
+import { useLanguage } from '@/context/language-context';
+import { translations } from '@/lib/translations';
 
 export default function Contact() {
+  const { language } = useLanguage();
+  const t = translations[language].contact;
+
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [subject, setSubject] = useState('');
@@ -17,7 +22,7 @@ export default function Contact() {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setStatus('Enviando...');
+    setStatus(t.form.status.sending);
 
     const res = await fetch('/api/send-email', {
       method: 'POST',
@@ -30,14 +35,14 @@ export default function Contact() {
     const data = await res.json();
 
     if (res.status === 200) {
-      setStatus('Correo enviado con éxito!');
+      setStatus(t.form.status.success);
       // Limpiar el formulario
       setName('');
       setEmail('');
       setSubject('');
       setMessage('');
     } else {
-      setStatus(`Error al enviar el correo: ${data.error}`);
+      setStatus(`${t.form.status.error}${data.error}`);
     }
   };
 
@@ -48,33 +53,33 @@ export default function Contact() {
           <Card className="border-0 shadow-none bg-transparent">
             <CardHeader className="text-center">
               <CardTitle className="font-headline text-3xl font-bold tracking-tight sm:text-4xl">
-                Contáctame
+                {t.title}
               </CardTitle>
               <CardDescription className="mt-4 text-lg">
-                ¿Tienes alguna pregunta o quieres discutir tus necesidades? Completa el formulario a continuación y me pondré en contacto contigo a la brevedad.
+                {t.subtitle}
               </CardDescription>
             </CardHeader>
             <CardContent>
               <form onSubmit={handleSubmit} className="mt-8 space-y-6">
                 <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
                   <div className="space-y-2">
-                    <Label htmlFor="name">Nombre completo</Label>
-                    <Input id="name" placeholder="Tu nombre" value={name} onChange={(e) => setName(e.target.value)} required />
+                    <Label htmlFor="name">{t.form.name}</Label>
+                    <Input id="name" placeholder={t.form.namePlaceholder} value={name} onChange={(e) => setName(e.target.value)} required />
                   </div>
                   <div className="space-y-2">
-                    <Label htmlFor="email">Correo electrónico</Label>
-                    <Input id="email" type="email" placeholder="tu@ejemplo.com" value={email} onChange={(e) => setEmail(e.target.value)} required />
+                    <Label htmlFor="email">{t.form.email}</Label>
+                    <Input id="email" type="email" placeholder={t.form.emailPlaceholder} value={email} onChange={(e) => setEmail(e.target.value)} required />
                   </div>
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="subject">Asunto</Label>
-                  <Input id="subject" placeholder="Ej: 'Consulta sobre constitución de empresa'" value={subject} onChange={(e) => setSubject(e.target.value)} required />
+                  <Label htmlFor="subject">{t.form.subject}</Label>
+                  <Input id="subject" placeholder={t.form.subjectPlaceholder} value={subject} onChange={(e) => setSubject(e.target.value)} required />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="message">Mensaje</Label>
+                  <Label htmlFor="message">{t.form.message}</Label>
                   <Textarea
                     id="message"
-                    placeholder="Cuéntame cómo puedo ayudarte."
+                    placeholder={t.form.messagePlaceholder}
                     className="min-h-[150px]"
                     value={message}
                     onChange={(e) => setMessage(e.target.value)}
@@ -84,7 +89,7 @@ export default function Contact() {
                 <div className="text-center">
                   <Button type="submit" size="lg" className="bg-primary text-primary-foreground hover:bg-primary/90">
                     <Mail className="mr-2 h-4 w-4" />
-                    Enviar Mensaje
+                    {t.buttonText}
                   </Button>
                 </div>
                 {status && <p className="text-center mt-4">{status}</p>}
