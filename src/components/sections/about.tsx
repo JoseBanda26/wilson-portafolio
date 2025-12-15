@@ -1,11 +1,12 @@
 'use client';
 import Image from 'next/image';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
-import { Mail, Phone } from 'lucide-react';
+import { Mail, Phone, PlayCircle, Volume2, VolumeX } from 'lucide-react';
 import Link from 'next/link';
 import { Card, CardContent } from '@/components/ui/card';
 import {
   Carousel,
+  CarouselApi,
   CarouselContent,
   CarouselItem,
   CarouselNext,
@@ -13,7 +14,7 @@ import {
 } from '@/components/ui/carousel';
 import { Button } from '@/components/ui/button';
 import Autoplay from 'embla-carousel-autoplay';
-import React from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { translations } from '@/lib/translations';
 import { useLanguage } from '@/context/language-context';
 
@@ -26,6 +27,68 @@ export default function About() {
   const plugin = React.useRef(
     Autoplay({ delay: 2000, stopOnInteraction: true })
   );
+
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const [isVideoPlaying, setIsVideoPlaying] = useState(false);
+  const [isMuted, setIsMuted] = useState(false); // Sonido activado por defecto
+  const [videoProgress, setVideoProgress] = useState(0);
+  const [api, setApi] = useState<CarouselApi>();
+
+  const handleVideoClick = () => {
+    if (videoRef.current) {
+      if (videoRef.current.paused) {
+        videoRef.current.play();
+        setIsVideoPlaying(true);
+      } else {
+        videoRef.current.pause();
+        setIsVideoPlaying(false);
+      }
+    }
+  };
+
+  const handleMuteClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (videoRef.current) {
+      const newMutedState = !videoRef.current.muted;
+      videoRef.current.muted = newMutedState;
+      setIsMuted(newMutedState);
+    }
+  };
+
+  const handleTimeUpdate = () => {
+    if (videoRef.current) {
+      const progress =
+        (videoRef.current.currentTime / videoRef.current.duration) * 100;
+      setVideoProgress(progress);
+    }
+  };
+
+  const handleVideoEnd = () => {
+    setIsVideoPlaying(false);
+    setVideoProgress(0);
+    if (videoRef.current) {
+      videoRef.current.currentTime = 0;
+    }
+  };
+
+  useEffect(() => {
+    if (!api) {
+      return;
+    }
+
+    const onSelect = () => {
+      if (videoRef.current && !videoRef.current.paused) {
+        videoRef.current.pause();
+        setIsVideoPlaying(false);
+      }
+    };
+
+    api.on('select', onSelect);
+
+    return () => {
+      api.off('select', onSelect);
+    };
+  }, [api]);
 
   return (
     <section
@@ -80,6 +143,7 @@ export default function About() {
             style={{ animationDelay: '0.4s' }}
           >
             <Carousel
+              setApi={setApi}
               className="w-full max-w-lg"
               plugins={[plugin.current]}
               onMouseEnter={plugin.current.stop}
@@ -89,7 +153,53 @@ export default function About() {
               }}
             >
               <CarouselContent>
-                {travelImages.map((image, index) => (
+                <CarouselItem>
+                  <Card className="bg-transparent border-0 shadow-none">
+                    <CardContent
+                      className="relative aspect-[4/3] p-0 overflow-hidden rounded-lg shadow-xl cursor-pointer"
+                      onClick={handleVideoClick}
+                    >
+                      <video
+                        ref={videoRef}
+                        src="/videos/video-1.mp4"
+                        playsInline
+                        className="object-cover w-full h-full"
+                        onPlay={() => setIsVideoPlaying(true)}
+                        onPause={() => setIsVideoPlaying(false)}
+                        onTimeUpdate={handleTimeUpdate}
+                        onEnded={handleVideoEnd}
+                      />
+                      {!isVideoPlaying && (
+                        <div className="absolute inset-0 flex items-center justify-center bg-black/50">
+                          <PlayCircle className="h-16 w-16 text-white" />
+                        </div>
+                      )}
+                      {isVideoPlaying && (
+                        <div className="absolute bottom-2 right-2 z-10">
+                          <Button
+                            size="icon"
+                            variant="ghost"
+                            onClick={handleMuteClick}
+                            className="h-8 w-8"
+                          >
+                            {isMuted ? (
+                              <VolumeX className="h-5 w-5 text-white" />
+                            ) : (
+                              <Volume2 className="h-5 w-5 text-white" />
+                            )}
+                          </Button>
+                        </div>
+                      )}
+                      <div className="absolute bottom-0 left-0 w-full h-1 bg-black/40">
+                        <div
+                          className="h-full bg-accent"
+                          style={{ width: `${videoProgress}%` }}
+                        ></div>
+                      </div>
+                    </CardContent>
+                  </Card>
+                </CarouselItem>
+                {travelImages.map((image) => (
                   <CarouselItem key={image.id}>
                     <Card className="bg-transparent border-0 shadow-none">
                       <CardContent className="relative aspect-[4/3] p-0 overflow-hidden rounded-lg shadow-xl">
